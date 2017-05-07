@@ -31,7 +31,7 @@
                 <label class="control-label">Selecteer het bestand met ledendata</label>
                 <div class="input-group">
                     <input id="file-input" class="form-control" name="file" type="file" data-allowed-file-extensions='["csv", "txt"]'/>
-        <span class="input-group-btn">
+                    <span class="input-group-btn">
           <input class="btn" type="submit" value="Verwerk"/>
         </span>
                 </div><!-- /input-group -->
@@ -45,32 +45,37 @@
             <h3 class="panel-title" th:text="'Verwerkingsresultaat van ' + ${filename}">Verwerkingsresultaat</h3>
         </div>
         <div class="panel-body">
-            <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-4">Totaal aantal users</div>
-                <div class="col-sm-4" th:text="${result.totalNumberOfRecords}">Totaal aantal...</div>
-                <div class="col-sm-2"></div>
+            <div class="row" style="padding-top: 20px">
+                <div class="col-md-4">Totaal aantal users</div>
+                <div class="col-md-4" th:text="${result.totalNumberOfRecords}">Totaal aantal...</div>
+                <div class="col-md-4"></div>
             </div>
             <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-4">Aantal reeds bestaande users</div>
-                <div class="col-sm-4" th:text="${result.skippedRecords}">Reeds bestaand...</div>
-                <div class="col-sm-2"></div>
+                <div class="col-md-4">Aantal reeds bestaande users</div>
+                <div class="col-md-4" th:text="${result.skippedRecords}">Reeds bestaand...</div>
+                <div class="col-md-4"></div>
             </div>
-            <table class="table-striped">
-                <thead>
-                <tr>
-                    <th>Gegevens</th>
-                    <th>Geslaagd?</th>
-                    <th>Foutmelding</th>
-                </tr>
-                </thead>
-                <tr th:each="record : ${result.result}">
-                    <td th:text="${record.userAsString}">Gegevens...</td>
-                    <td th:text="${record.succeeded}? 'Ja' : 'Nee' ">Geslaagd? ...</td>
-                    <td th:class="${record.succeeded}? '' : 'alert alert-warning'" th:text="${record.errorText}">Foutmelding ...</td>
-                </tr>
-            </table>
+            <div class="row" style="padding-top: 20px">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>Gegevens verwerkte gebruikers</th>
+                            <th>Geslaagd?</th>
+                            <th>Foutmelding</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="record : ${result.result}">
+                            <td scope="row" th:text="${record.userAsString}">Gegevens...</td>
+                            <td th:text="${record.succeeded}? 'Ja' : 'Nee' ">Geslaagd? ...</td>
+                            <td th:class="${record.succeeded}? '' : 'alert alert-warning'" th:text="${record.errorText}">Foutmelding ...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
         <div class="panel-footer">
             <h3 class="panel-title" th:text="'Verwerkingstijd: ' + ${tooktime} + ' voor ' + ${recordCount} + ' records'">Verwerkingstijd</h3>
