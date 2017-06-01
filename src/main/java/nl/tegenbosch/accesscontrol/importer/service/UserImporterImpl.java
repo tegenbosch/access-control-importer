@@ -7,7 +7,6 @@ import nl.tegenbosch.accesscontrol.importer.domain.User;
 import nl.tegenbosch.accesscontrol.importer.dto.ImportRecordResult;
 import nl.tegenbosch.accesscontrol.importer.dto.ImportResult;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -21,14 +20,17 @@ import java.util.List;
 @Component
 public class UserImporterImpl implements UserImporter {
 
-    @Autowired
-    private UserRepository personnelDataRepository;
+    private final UserRepository personnelDataRepository;
 
-    @Autowired
-    private BadgeRepository badgeRepository;
+    private final BadgeRepository badgeRepository;
 
     @Value("${user.projectcode}")
     private int projectCode;
+
+    public UserImporterImpl(UserRepository personnelDataRepository, BadgeRepository badgeRepository) {
+        this.personnelDataRepository = personnelDataRepository;
+        this.badgeRepository = badgeRepository;
+    }
 
     @Override
     public ImportResult importUsers(List<User> users) {

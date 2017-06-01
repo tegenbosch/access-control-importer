@@ -19,21 +19,30 @@
     </div>
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h3 class="panel-title">Upload het bestand met ledendata</h3>
+            <h3 class="panel-title">Upload een bestand met ledendata</h3>
         </div>
         <div class="panel-body">
             <div th:if="${warning != null}" class="alert alert-warning" role="alert">
                 <span th:text="${warning}"></span>
             </div>
 
-            <form action="upload" th:action="@{/upload}" method="post" enctype="multipart/form-data">
-
-                <label class="control-label">Selecteer het bestand met ledendata</label>
+            <form action="upload" th:action="@{/uploadExcel}" method="post" enctype="multipart/form-data">
+                <label class="control-label">Selecteer het Excel bestand met ledendata</label>
                 <div class="input-group">
-                    <input id="file-input" class="form-control" name="file" type="file" data-allowed-file-extensions='["csv", "txt"]'/>
+                    <input id="excel-file-input" class="form-control" name="file" type="file" data-allowed-file-extensions='["xls"]'/>
                     <span class="input-group-btn">
-          <input class="btn" type="submit" value="Verwerk"/>
-        </span>
+                        <input class="btn" type="submit" value="Verwerk Excel"/>
+                    </span>
+                </div><!-- /input-group -->
+            </form>
+
+            <form action="upload" th:action="@{/uploadCSV}" method="post" enctype="multipart/form-data">
+                <label class="control-label">Selecteer het CSV bestand met ledendata</label>
+                <div class="input-group">
+                    <input id="csv-file-input" class="form-control" name="file" type="file" data-allowed-file-extensions='["csv"]'/>
+                    <span class="input-group-btn">
+                        <input class="btn" type="submit" value="Verwerk CSV"/>
+                    </span>
                 </div><!-- /input-group -->
             </form>
         </div>
