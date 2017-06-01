@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Setter
 public class User implements Serializable {
 
-    private int badgenumber;
+    private Integer badgenumber;
 
     private String firstname;
 
@@ -24,9 +24,15 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "badgenummer=" + badgenumber +
-                ", voornaam='" + firstname + '\'' +
-                ", tussenvoegsel='" + middlename + '\'' +
-                ", achternaam='" + lastname + '\'';
+        StringBuilder sb = new StringBuilder();
+        if (badgenumber != null) {
+            sb.append("badgenummer: ").append(badgenumber).append(", ");
+        }
+        sb.append(" voornaam: '").append(firstname).append("', ");
+        if (middlename != null) {
+            sb.append(" tussenvoegsel: '").append(middlename).append("', ");
+        }
+        sb.append(" achternaam: '").append(lastname).append("'");
+        return sb.toString();
     }
 }

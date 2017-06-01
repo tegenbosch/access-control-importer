@@ -37,6 +37,7 @@ public class UserImporterImpl implements UserImporter {
         ImportResult importResult = new ImportResult();
 
         users.stream()
+                .filter(user -> noBadgenumber(user, importResult))
                 .filter(user -> notExisting(user, importResult))
                 .map(this::importRecord)
                 .forEach(importResult::add);
@@ -50,6 +51,13 @@ public class UserImporterImpl implements UserImporter {
             importResult.increaseSkipped();
         }
         return badge == null;
+    }
+
+    private boolean noBadgenumber(User user, ImportResult importResult) {
+        if (user.getBadgenumber() == null) {
+            importResult.addUserWithoutBondsnummer(user);
+        }
+        return user.getBadgenumber() != null;
     }
 
     private ImportRecordResult importRecord(User user) {

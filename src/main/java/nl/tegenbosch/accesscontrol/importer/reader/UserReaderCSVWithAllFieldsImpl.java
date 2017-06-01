@@ -34,7 +34,7 @@ public class UserReaderCSVWithAllFieldsImpl extends AbstractUserReaderCSVImpl {
                 null,                         // 15 - steden
                 null,                         // 16 - rollen
                 null,                         // 17 - clublidnummer
-                new UniqueHashCode(new ParseInt()),     // 18 - bondsnummer
+                new Optional(new UniqueHashCode(new ParseInt())), // 18 - bondsnummer
                 null,                         // 19 - clublid
                 null,                         // 20 - bondslid
                 null,                         // 21 - startdatum lidmaatschap

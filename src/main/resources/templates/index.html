@@ -36,15 +36,15 @@
                 </div><!-- /input-group -->
             </form>
 
-            <form action="upload" th:action="@{/uploadCSV}" method="post" enctype="multipart/form-data">
+            <!--<form action="upload" th:action="@{/uploadCSV}" method="post" enctype="multipart/form-data">
                 <label class="control-label">Selecteer het CSV bestand met ledendata</label>
                 <div class="input-group">
                     <input id="csv-file-input" class="form-control" name="file" type="file" data-allowed-file-extensions='["csv"]'/>
                     <span class="input-group-btn">
                         <input class="btn" type="submit" value="Verwerk CSV"/>
                     </span>
-                </div><!-- /input-group -->
-            </form>
+                </div>&lt;!&ndash; /input-group &ndash;&gt;
+            </form>-->
         </div>
     </div>
 
@@ -63,6 +63,22 @@
                 <div class="col-md-4">Aantal reeds bestaande users</div>
                 <div class="col-md-4" th:text="${result.skippedRecords}">Reeds bestaand...</div>
                 <div class="col-md-4"></div>
+            </div>
+            <div class="row" style="padding-top: 20px">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>Gegevens gebruikers zonder badgenummer (deze zijn nog NIET verwerkt)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="record : ${result.usersWithoutBadgenumber}">
+                            <td scope="row" th:text="${record}">Gegevens...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="row" style="padding-top: 20px">
                 <div class="col-md-12">

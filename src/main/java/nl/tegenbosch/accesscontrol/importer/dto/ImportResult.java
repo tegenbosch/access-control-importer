@@ -14,6 +14,8 @@ public class ImportResult {
 
     private final List<ImportRecordResult> result = new ArrayList<>();
 
+    private final List<User> usersWithoutBadgenumber = new ArrayList<>();
+
     private int skippedRecords = 0;
 
     /**
@@ -36,6 +38,10 @@ public class ImportResult {
         skippedRecords ++;
     }
 
+    public void addUserWithoutBondsnummer(User user) {
+        usersWithoutBadgenumber.add(user);
+    }
+
     public int getSkippedRecords() {
         return skippedRecords;
     }
@@ -44,4 +50,7 @@ public class ImportResult {
         return skippedRecords + result.size();
     }
 
+    public List<User> getUsersWithoutBadgenumber() {
+        return usersWithoutBadgenumber;
+    }
 }
