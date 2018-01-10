@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,52 +27,55 @@ import java.util.Map;
  */
 public abstract class AbstractUserReaderCSVImpl implements UserReader {
 
-    private static final Log LOG = LogFactory.getLog(AbstractUserReaderCSVImpl.class);
+  private static final Log LOG = LogFactory.getLog(AbstractUserReaderCSVImpl.class);
 
-    private final Map<String, String> fieldsToMap = new HashMap<>(4);
+  private final Map<String, String> fieldsToMap = new HashMap<>(4);
 
-    @Value("${mapping.columnname.firstname}")
-    private String firstnameColumnName;
+  @Value("${mapping.columnname.firstname}")
+  private String firstnameColumnName;
 
-    @Value("${mapping.columnname.middlename}")
-    private String middlenameColumnName;
+  @Value("${mapping.columnname.middlename}")
+  private String middlenameColumnName;
 
-    @Value("${mapping.columnname.lastname}")
-    private String lastnameColumnName;
+  @Value("${mapping.columnname.lastname}")
+  private String lastnameColumnName;
 
-    @Value("${mapping.columnname.badgenumber}")
-    private String badgenumberColumnName;
+  @Value("${mapping.columnname.badgenumber}")
+  private String badgenumberColumnName;
 
-    @PostConstruct
-    public void init() {
-        fieldsToMap.put(firstnameColumnName, "firstname");
-        fieldsToMap.put(middlenameColumnName, "middlename");
-        fieldsToMap.put(lastnameColumnName, "lastname");
-        fieldsToMap.put(badgenumberColumnName, "badgenumber");
+  @PostConstruct
+  public void init() {
+    fieldsToMap.put(firstnameColumnName, "firstname");
+    fieldsToMap.put(middlenameColumnName, "middlename");
+    fieldsToMap.put(lastnameColumnName, "lastname");
+    fieldsToMap.put(badgenumberColumnName, "badgenumber");
+  }
+
+  @Override
+  public List<User> read(byte[] csvData) {
+    LOG.info("Reading the CSV file");
+    List<User> result = new ArrayList<>();
+
+    try (ICsvBeanReader beanReader =
+                 new CsvBeanReader(
+                         new InputStreamReader(
+                                 new ByteArrayInputStream(csvData), Charset.forName("ISO-8859-3")), CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE)) {
+
+      final String[] header = beanReader.getHeader(true);
+
+      Arrays.setAll(header, i -> fieldsToMap.getOrDefault(header[i], null));
+
+      User user;
+
+      while ((user = beanReader.read(User.class, header, getCellProcessors())) != null) {
+        result.add(user);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+    LOG.info(String.format("CSV file has %d lines", result.size()));
+    return result;
+  }
 
-    @Override
-    public List<User> read(byte[] csvData) {
-        LOG.info("Reading the CSV file");
-        List<User> result = new ArrayList<>();
-
-        try (ICsvBeanReader beanReader = new CsvBeanReader(new InputStreamReader(new ByteArrayInputStream(csvData)), CsvPreference.STANDARD_PREFERENCE)) {
-
-            final String[] header = beanReader.getHeader(true);
-
-            Arrays.setAll(header, i -> fieldsToMap.getOrDefault(header[i], null));
-
-            User user;
-
-            while ((user = beanReader.read(User.class, header, getCellProcessors())) != null) {
-                result.add(user);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        LOG.info(String.format("CSV file has %d lines", result.size()));
-        return result;
-    }
-
-    abstract CellProcessor[] getCellProcessors();
+  abstract CellProcessor[] getCellProcessors();
 }

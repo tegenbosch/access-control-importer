@@ -26,25 +26,25 @@
                 <span th:text="${warning}"></span>
             </div>
 
-            <form action="upload" th:action="@{/uploadExcel}" method="post" enctype="multipart/form-data">
+            <!--<form action="upload" th:action="@{/uploadExcel}" method="post" enctype="multipart/form-data">
                 <label class="control-label">Selecteer het Excel bestand met ledendata</label>
                 <div class="input-group">
                     <input id="excel-file-input" class="form-control" name="file" type="file" data-allowed-file-extensions='["xls"]'/>
                     <span class="input-group-btn">
                         <input class="btn" type="submit" value="Verwerk Excel"/>
                     </span>
-                </div><!-- /input-group -->
-            </form>
+                </div>&lt;!&ndash; /input-group &ndash;&gt;
+            </form>-->
 
-            <!--<form action="upload" th:action="@{/uploadCSV}" method="post" enctype="multipart/form-data">
+            <form action="upload" th:action="@{/uploadCSV}" method="post" enctype="multipart/form-data">
                 <label class="control-label">Selecteer het CSV bestand met ledendata</label>
                 <div class="input-group">
                     <input id="csv-file-input" class="form-control" name="file" type="file" data-allowed-file-extensions='["csv"]'/>
                     <span class="input-group-btn">
                         <input class="btn" type="submit" value="Verwerk CSV"/>
                     </span>
-                </div>&lt;!&ndash; /input-group &ndash;&gt;
-            </form>-->
+                </div><!-- /input-group -->
+            </form>
         </div>
     </div>
 
@@ -55,12 +55,12 @@
         </div>
         <div class="panel-body">
             <div class="row" style="padding-top: 20px">
-                <div class="col-md-4">Totaal aantal users</div>
+                <div class="col-md-4">Totaal aantal gebruikers</div>
                 <div class="col-md-4" th:text="${result.totalNumberOfRecords}">Totaal aantal...</div>
                 <div class="col-md-4"></div>
             </div>
             <div class="row">
-                <div class="col-md-4">Aantal reeds bestaande users</div>
+                <div class="col-md-4">Aantal reeds bestaande gebruikers</div>
                 <div class="col-md-4" th:text="${result.skippedRecords}">Reeds bestaand...</div>
                 <div class="col-md-4"></div>
             </div>

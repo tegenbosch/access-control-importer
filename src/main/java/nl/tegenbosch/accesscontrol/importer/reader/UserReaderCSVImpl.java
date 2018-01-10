@@ -19,10 +19,11 @@ public class UserReaderCSVImpl extends AbstractUserReaderCSVImpl {
     @Override
     CellProcessor[] getCellProcessors() {
         return new CellProcessor[]{
-                new NotNull(),                                    // 01 - voornaam
-                new Optional(),                                   // 02 - tussenvoegsel
-                new NotNull(),                                    // 03 - achternaam
-                new Optional(new UniqueHashCode(new ParseInt()))  // 04 - bondsnummer
+                new Optional(new UniqueHashCode(new ParseInt())), // 01 - bondsnummer
+                new NotNull(),                                    // 02 - voornaam
+                new Optional(),                                   // 03 - tussenvoegsel
+                new NotNull(),                                    // 04 - achternaam
+
         };
     }
 
